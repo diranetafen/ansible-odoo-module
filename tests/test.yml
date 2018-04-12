@@ -11,7 +11,7 @@
       odoo_url: "http://127.0.0.1"
       odoo_admin_login: "admin"
       odoo_admin_password: "password"
-      odoo_database: "test_db"
+      odoo_database_name: "test_db"
       odoo_port: 80
 
       # The order of module list must be important, some module have dependancies so pay attention
