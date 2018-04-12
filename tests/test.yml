@@ -1,5 +1,72 @@
 ---
-- hosts: localhost
-  remote_user: root
-  roles:
-    - module
+  - hosts: localhost
+    connection: local
+    remote_user: root
+    become: true
+    roles:
+      - { role: ../ansible-odoo-module, tags: ['update_list', 'install', 'upgrade', 'uninstall', 'pos', 'company'] }
+    vars:
+      # Odoo connection info
+      odoo_host: "127.0.0.1"
+      odoo_url: "http://127.0.0.1"
+      odoo_admin_login: "admin"
+      odoo_admin_password: "password"
+      odoo_database: "test_db"
+      odoo_port: 80
+
+      # The order of module list must be important, some module have dependancies so pay attention
+      modules_to_install: ["point_of_sale", "barcodes", "hw_proxy" ]
+
+      modules_to_uninstall: ["hw_proxy", "barcodes"]
+
+      modules_to_upgrade: ["point_of_sale"]
+
+      # Tempory file created on target host tablet
+      install_modules_script_dest: install_modules.py
+      upgrade_modules_script_dest: upgrade_modules.py
+      update_list_script_dest: update_list.py
+      configure_modules_script_dest: configure_modules.py
+      uninstall_modules_script_dest: uninstall_modules.py
+      configure_pos_script_dest: configure_pos.py
+      configure_company_script_dest: configure_company.py
+
+      tablet_user: root
+
+      # POS configuration
+      pos_to_configure:
+        pos1:
+          customer_display_line_length: 16 # Line Length of the Customer Display (<size of customer display string>)
+          pricelist_id: 1 # Pricelist
+          iface_big_scrollbars: true # Large scrollbars (true, false)
+          iface_print_auto: true # Automatic Receipt Printing (true, false)
+          show_qty_on_pos: true # Display Stock in POS (true, false)
+          iface_display_categ_images: true # Display Category Pictures (true , false)
+          iface_customer_display: true # Customer Display (true, false)
+          customer_display_msg_next_l1: \"Welcome!\" # Next Customer Message Top Line
+          customer_display_msg_next_l2: \"POS Open\" # Bottom Line
+          customer_display_msg_closed_l1: \"POS Closed\" # POS Closed Message Top Line
+          customer_display_msg_closed_l2: \"See you soon\" # Bottom Line
+          receipt_header: \"Thank You\" # Header receipt
+          receipt_footer: \"Thank You\" # Footer receipt
+          customer_display_size_less_than_18: true # This help us to prevent issue due to the default customer_display_msg_next_l2 and customer_display_msg_closed_l1 message size = 18 and the customer_display_line_length
+
+      # Company configuration
+      company_to_configure:
+        company1:
+          display_name: \"company1\" # Display Name
+          rml_header1: \"The company you need\" # Company Tagline
+          street: \"38 Rue \" # Company Street address
+          street2: \"24 Rue \" # Company Street address
+          city: \"Lyon\" # City of the company
+          zip: \"69003\" # ZIP code
+          country_id: 76 #  Company Country id
+          website: \"https://toto.fr\" # Company Website
+          phone: \"00000000\" # Company phone number
+          fax: \"00000000\" # Company Fax number
+          email: \"toto@gmail.fr\" # Company email
+          vat: \"toto\" # Company tax ID
+          company_registry: \"Docker registry\" # Company registry
+          siret: \"toto Siret\" # Company siret
+          ape: \"toto APE\" # Company APE
+          currency_id: 1 # Company currency id
+          vat_check_vies: false # VIES VAT Check

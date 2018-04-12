@@ -50,18 +50,18 @@ company_to_configure:
   company1:
     display_name: \"company1\" # Display Name
     rml_header1: \"The company you need\" # Company Tagline
-    street: \"38 Rue sainte anne de baraban\" # Company Street address
-    street2: \"24 Rue Docteur Greffier\" # Company Street address
+    street: \"38 Rue \" # Company Street address
+    street2: \"24 Rue \" # Company Street address
     city: \"Lyon\" # City of the company
     zip: \"69003\" # ZIP code
     country_id: 76 #  Company Country id
-    website: \"https://pozos.fr\" # Company Website
-    phone: \"0789919305\" # Company phone number
+    website: \"https://toto.fr\" # Company Website
+    phone: \"00000000\" # Company phone number
     fax: \"00000000\" # Company Fax number
-    email: \"pozostablet@gmail.fr\" # Company email
+    email: \"toto@gmail.fr\" # Company email
     vat: \"toto\" # Company tax ID
     company_registry: \"Docker registry\" # Company registry
-    siret: \"POZOS Siret\" # Company siret
-    ape: \"POZOS APE\" # Company APE
+    siret: \"toto Siret\" # Company siret
+    ape: \"toto APE\" # Company APE
     currency_id: 1 # Company currency id
     vat_check_vies: false # VIES VAT Check
