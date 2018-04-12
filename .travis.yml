@@ -39,4 +39,9 @@ script:
   - 'sudo ansible-playbook tests/test.yml --syntax-check'
 
   # Run the role/playbook with ansible-playbook
-  - 'sudo ansible-playbook tests/test.yml -vvvv'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags update_list'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags install'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags upgrade'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags uninstall'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags pos'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags company'

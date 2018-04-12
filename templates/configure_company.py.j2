@@ -10,6 +10,7 @@ models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
 {% endraw %}
 
 {% for key, company_to_configure_iteritem in company_to_configure.iteritems() %}
+models.execute_kw(db, uid, password, 'res.company', 'write', [1, {{ '{' }}"name":"{{ key  | replace('\\', '')}}"{{ '}' }}])
 company_ids = models.execute_kw(db, uid, password, 'res.company', 'search', [[["name", '=', "{{ key }}"]]])
 if not company_ids:
   models.execute_kw(db, uid, password, 'res.company', 'create', [{{ '{' }}"name":"{{ key }}" {{ '}' }}])

@@ -4,11 +4,11 @@
     remote_user: root
     become: true
     roles:
-      - { role: ../ansible-odoo-module, tags: ['update_list', 'install', 'upgrade', 'uninstall', 'pos', 'company'] }
+      - { role: ../ansible-odoo-module }
     vars:
       # Odoo connection info
       odoo_host: "127.0.0.1"
-      odoo_url: "http://127.0.0.1"
+      odoo_url: "http://127.0.0.1:80"
       odoo_admin_login: "admin"
       odoo_admin_password: "password"
       odoo_database_name: "test_db"
@@ -17,7 +17,7 @@
       # The order of module list must be important, some module have dependancies so pay attention
       modules_to_install: ["point_of_sale", "barcodes", "hw_proxy" ]
 
-      modules_to_uninstall: ["hw_proxy", "barcodes"]
+      modules_to_uninstall: ["hw_proxy"]
 
       modules_to_upgrade: ["point_of_sale"]
 
