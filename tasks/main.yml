@@ -1,0 +1,33 @@
+---
+# tasks file for module
+
+- include: install_requirements.yml
+  tags:
+    - always
+- include: update_list.yml
+  tags:
+    - install
+    - upgrade
+    - update_list
+- include: install_modules.yml
+  tags:
+    - install
+    - upgrade
+- include: upgrade_modules.yml
+  tags:
+    - upgrade
+#- include: configure_modules.yml
+#  tags:
+#    - install
+#    - update
+#    - configure
+- include: uninstall_modules.yml
+  tags:
+    - uninstall
+
+- include: configure_pos.yml
+  tags:
+    - pos
+- include: configure_company.yml
+  tags:
+    - company

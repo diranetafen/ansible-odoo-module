@@ -1,0 +1,22 @@
+import xmlrpclib
+url = "{{ odoo_url }}"
+db = "{{ odoo_database_name }}"
+username = "{{ odoo_admin_login }}"
+password = "{{ odoo_admin_password }}"
+{% raw %}
+common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+uid = common.authenticate(db, username, password, {})
+models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
+{% endraw %}
+
+{% for key, pos_to_configure_iteritem in pos_to_configure.iteritems() %}
+pos_ids = models.execute_kw(db, uid, password, 'pos.config', 'search', [[["name", '=', "{{ key }}"]]])
+if not pos_ids:
+  models.execute_kw(db, uid, password, 'pos.config', 'create', [{{ '{' }}"name":"{{ key }}" {% if customer_display_size_less_than_18 %} , "customer_display_msg_next_l2": "POS Open", "customer_display_msg_closed_l1": "POS Closed" {% endif %} {{ '}' }}])
+pos_ids = models.execute_kw(db, uid, password, 'pos.config', 'search', [[["name", '=', "{{ key }}"]]])
+if pos_ids:
+  for pos_id in pos_ids:
+{% for key2, nested_value in pos_to_configure_iteritem.iteritems() %}
+    models.execute_kw(db, uid, password, 'pos.config', 'write', [pos_id, {{ '{' }}"{{ key2 }}":{{ nested_value  | replace('\\', '')}}{{ '}' }}])
+{% endfor %}
+{% endfor %}

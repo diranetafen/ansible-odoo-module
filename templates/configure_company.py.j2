@@ -1,0 +1,22 @@
+import xmlrpclib
+url = "{{ odoo_url }}"
+db = "{{ odoo_database_name }}"
+username = "{{ odoo_admin_login }}"
+password = "{{ odoo_admin_password }}"
+{% raw %}
+common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+uid = common.authenticate(db, username, password, {})
+models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
+{% endraw %}
+
+{% for key, company_to_configure_iteritem in company_to_configure.iteritems() %}
+company_ids = models.execute_kw(db, uid, password, 'res.company', 'search', [[["name", '=', "{{ key }}"]]])
+if not company_ids:
+  models.execute_kw(db, uid, password, 'res.company', 'create', [{{ '{' }}"name":"{{ key }}" {{ '}' }}])
+company_ids = models.execute_kw(db, uid, password, 'res.company', 'search', [[["name", '=', "{{ key }}"]]])
+if company_ids:
+  for company_id in company_ids:
+{% for key2, nested_value in company_to_configure_iteritem.iteritems() %}
+    models.execute_kw(db, uid, password, 'res.company', 'write', [company_id, {{ '{' }}"{{ key2 }}":{{ nested_value  | replace('\\', '')}}{{ '}' }}])
+{% endfor %}
+{% endfor %}

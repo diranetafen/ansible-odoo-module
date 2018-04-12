@@ -1,0 +1,20 @@
+import sys
+import odoorpc
+
+db_name = '{{odoo_database_name}}'
+user = '{{odoo_admin_login}}'
+passwd = '{{odoo_admin_password}}'
+host = '{{odoo_host}}'
+port = {{odoo_port}}
+
+odoo = odoorpc.ODOO(host, port=port)
+odoo.login(db_name, user, passwd)
+if db_name not in odoo.db.list():
+  sys.exit("DB %s not found in db list" % db_name)
+
+odoo.login(db_name, user, passwd)
+Module = odoo.env['ir.module.module']
+
+sys.stdout.write("Updating App List ...")
+Module.update_list()
+print "Done."

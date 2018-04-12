@@ -1,0 +1,5 @@
+---
+# Task to Install prerequisites
+  - name: Install odoorpc
+    pip:
+      name: odoorpc

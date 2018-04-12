@@ -1,0 +1,28 @@
+---
+  - name: Create temporary directory to save the script
+    tempfile:
+      prefix: odoo-module-scripts
+      state: directory
+    register: temp_dir
+
+  - name: Copy Upgrade Odoo modules Script
+    template:
+      src: upgrade_modules.py.j2
+      dest: "{{ temp_dir.path }}/{{ upgrade_modules_script_dest }}"
+      owner: '{{ tablet_user }}'
+      group: '{{ tablet_user }}'
+      mode: 0733
+
+  - name: check if script file exist
+    stat:
+      path: "{{ temp_dir.path }}/{{ upgrade_modules_script_dest }}"
+    register: stat_result
+
+  - name: Upgrade Odoo modules using generated script
+    command: "python {{ temp_dir.path }}/{{ upgrade_modules_script_dest }}"
+    when: stat_result.stat.exists == True
+
+  - name: delete temporary files
+    file:
+      state: absent
+      path: "{{ temp_dir.path }}"

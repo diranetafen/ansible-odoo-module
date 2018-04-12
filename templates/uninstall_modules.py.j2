@@ -1,0 +1,26 @@
+import sys
+import odoorpc
+
+db_name = '{{odoo_database_name}}'
+user = '{{odoo_admin_login}}'
+passwd = '{{odoo_admin_password}}'
+host = '{{odoo_host}}'
+
+odoo = odoorpc.ODOO(host, port={{odoo_port}})
+odoo.login(db_name, user, passwd)
+if db_name not in odoo.db.list():
+  sys.exit("DB %s not found in db list" % db_name)
+
+odoo.login(db_name, user, passwd)
+Module = odoo.env['ir.module.module']
+
+{% for item in modules_to_uninstall %}
+module_ids = Module.search([['name', '=', '{{item}}']])
+for module in Module.browse(module_ids):
+  if module.state != 'installed':
+    print "%s has already been removed." % module.name
+  else:
+    sys.stdout.write("Uninstalling %s ... " % module.name)
+    module.button_immediate_uninstall()
+    print "Done."
+{% endfor %}
