@@ -8,7 +8,7 @@ host = '{{odoo_host}}'
 
 odoo = odoorpc.ODOO(host, port={{odoo_port}})
 odoo.login(db_name, user, passwd)
-odoo.config['timeout'] = 240
+odoo.config['timeout'] = {{ timeout }}
 if db_name not in odoo.db.list():
   sys.exit("DB %s not found in db list" % db_name)
 
