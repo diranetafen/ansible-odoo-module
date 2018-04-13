@@ -1,20 +1,23 @@
 ---
 # defaults file for module
 
-# The order of module list must be important, some module have dependancies so pay attention
-modules_to_install: ["odoo_login_keyboard", "aces_pos_graph", "pos_direct_login", "wv_pos_theme", "point_of_sale_logo", "pos_stock_avail", "pos_sync_order", "pos_sync_restaurant", "pos_kitchen", "pos_restaurant_kitchens", "automatic_backup"]
-
-modules_to_uninstall: ["pos_sync_restaurant", "pos_kitchen", "pos_restaurant_kitchens"]
-
-modules_to_upgrade: ["odoo_login_keyboard", "aces_pos_graph", "pos_direct_login", "wv_pos_theme", "point_of_sale_logo", "pos_stock_avail", "pos_sync_order", "pos_sync_restaurant", "pos_kitchen", "automatic_backup"]
-
 # Odoo connection info
-odoo_admin_login: DIRANETAFEN
-odoo_admin_password: PASSWORD
-odoo_database_name: POZOS
-odoo_host: 192.168.1.91
-odoo_port: 80
+odoo_host: "192.168.1.91"
 odoo_url: "http://192.168.1.91"
+odoo_admin_login: "admin"
+odoo_admin_password: "password"
+odoo_database_name: "test_db"
+odoo_port: 80
+
+# Define timeout for long action like create database, restore database
+timeout: 240
+
+# The order of module list must be important, some module have dependancies so pay attention
+modules_to_install: ["point_of_sale", "hw_proxy"]
+
+modules_to_uninstall: ["hw_proxy"]
+
+modules_to_upgrade: ["point_of_sale"]
 
 # Tempory file created on target host tablet
 install_modules_script_dest: install_modules.py
@@ -43,7 +46,7 @@ pos_to_configure:
     customer_display_msg_closed_l2: \"See you soon\" # Bottom Line
     receipt_header: \"Thank You\" # Header receipt
     receipt_footer: \"Thank You\" # Footer receipt
-customer_display_size_less_than_18: true # This help us to prevent issue due to the default customer_display_msg_next_l2 and customer_display_msg_closed_l1 message size = 18 and the customer_display_line_length
+    customer_display_size_less_than_18: true # This help us to prevent issue due to the default customer_display_msg_next_l2 and customer_display_msg_closed_l1 message size = 18 and the customer_display_line_length
 
 # Company configuration
 company_to_configure:
