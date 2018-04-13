@@ -46,7 +46,7 @@ pos_to_configure:
     customer_display_msg_closed_l2: \"See you soon\" # Bottom Line
     receipt_header: \"Thank You\" # Header receipt
     receipt_footer: \"Thank You\" # Footer receipt
-    customer_display_size_less_than_18: true # This help us to prevent issue due to the default customer_display_msg_next_l2 and customer_display_msg_closed_l1 message size = 18 and the customer_display_line_length
+customer_display_size_less_than_18: true # This help us to prevent issue due to the default customer_display_msg_next_l2 and customer_display_msg_closed_l1 message size = 18 and the customer_display_line_length
 
 # Company configuration
 company_to_configure:
