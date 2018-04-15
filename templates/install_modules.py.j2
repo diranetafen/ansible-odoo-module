@@ -36,7 +36,7 @@ for module in Module.browse(module_ids):
     module.button_immediate_install()
     print "Done."
 {% else %}
-module_ids = Module.search([['name', '=', 'pos_restaurant'}]])
+module_ids = Module.search([['name', '=', 'pos_restaurant']])
 for module in Module.browse(module_ids):
   if module.state != 'installed':
     print "%s has already been removed." % module.name
