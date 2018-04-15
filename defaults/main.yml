@@ -68,3 +68,6 @@ company_to_configure:
     ape: \"toto APE\" # Company APE
     currency_id: 1 # Company currency id
     vat_check_vies: false # VIES VAT Check
+
+# Your business is shop or restaurant
+restaurant: true
