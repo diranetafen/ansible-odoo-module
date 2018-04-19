@@ -3,3 +3,4 @@
   - name: Install odoorpc
     pip:
       name: odoorpc
+    become: true
