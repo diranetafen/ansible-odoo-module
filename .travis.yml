@@ -45,3 +45,4 @@ script:
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags uninstall'
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags pos'
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags company'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags configure'

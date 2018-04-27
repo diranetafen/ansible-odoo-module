@@ -70,6 +70,27 @@
           ape: \"toto APE\" # Company APE
           currency_id: 1 # Company currency id
           vat_check_vies: false # VIES VAT Check
+      
+      # Configure custom modules
+      custom_modules_to_configure:
+        - 'module_name': base
+          'ressource_name': \"POZOS SMTP\"
+          'model': ir.mail_server # Name of the Odoo module to use went create or update the created object
+          'creation_extra_parameters': "'smtp_host':'smtp.gmail.com'" # Add more parameters when create object
+          'extra_parameters': "" # This will be run after ressource creation
+          'search_field': name # Field to filter
+          'parameters':
+            smtp_host: \"smtp.gmail.com\"
+            display_name: \"POZOS SMTP\"
+            smtp_user: \"pozostablet@gmail.com\"
+            smtp_encryption: \"ssl\"
+            smtp_pass: \"very_strong_password\"
+            sequence: 5
+            smtp_debug: true
+            active: True
+            smtp_port: 465
+
       # Your business is shop or restaurant
       restaurant: true
+      shop: true
 

@@ -27,6 +27,7 @@ configure_modules_script_dest: configure_modules.py
 uninstall_modules_script_dest: uninstall_modules.py
 configure_pos_script_dest: configure_pos.py
 configure_company_script_dest: configure_company.py
+configure_custom_modules_dest: configure_custom_modules.py
 
 tablet_user: pi
 
@@ -69,5 +70,26 @@ company_to_configure:
     currency_id: 1 # Company currency id
     vat_check_vies: false # VIES VAT Check
 
+# Configure custom modules
+custom_modules_to_configure:
+  - 'module_name': base
+    'ressource_name': \"YOUR COMPANY SMTP SERVER\"
+    'model': ir.mail_server # Name of the Odoo module to use went create or update the created object
+    'creation_extra_parameters': "'smtp_host':'smtp.gmail.com'" # Add more parameters when create object
+    'extra_parameters': "" # This will be run after ressource creation
+    'search_field': name # Field to filter
+    'parameters':
+      smtp_host: \"smtp.gmail.com\"
+      display_name: \"YOUR COMPANY SMTP SERVER\"
+      smtp_user: \"totot@gmail.com\"
+      smtp_encryption: \"ssl\"
+      smtp_pass: \"very_strong_password\"
+      sequence: 5
+      smtp_debug: true
+      active: True
+      smtp_port: 465
+
+
 # Your business is shop or restaurant
 restaurant: true
+shop: true
