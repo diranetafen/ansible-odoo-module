@@ -21,10 +21,12 @@
 #    - install
 #    - update
 #    - configure
+- include: configure_custom_modules.yml
+  tags:
+    - configure
 - include: uninstall_modules.yml
   tags:
     - uninstall
-
 - include: configure_pos.yml
   tags:
     - pos

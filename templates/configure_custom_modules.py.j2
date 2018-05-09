@@ -1,0 +1,50 @@
+import xmlrpclib
+import base64
+import sys
+import odoorpc
+
+url = "{{ odoo_url }}"
+db = "{{ odoo_database_name }}"
+username = "{{ odoo_admin_login }}"
+password = "{{ odoo_admin_password }}"
+host = '{{odoo_host}}'
+
+odoo = odoorpc.ODOO(host, port={{odoo_port}})
+odoo.login(db, username, password)
+odoo.config['timeout'] = {{ timeout }}
+Module = odoo.env['ir.module.module']
+
+{% raw %}
+common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+uid = common.authenticate(db, username, password, {})
+models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
+{% endraw %}
+
+{% for module in custom_modules_to_configure %}
+module_ids = Module.search([['name', '=', '{{module['module_name']  | replace('\\', '')}}']])
+for module in Module.browse(module_ids):
+  if module.state == 'installed':
+    print "%s has already been installed." % module.name
+  else:
+    sys.stdout.write("Installing %s ... " % module.name)
+    module.button_immediate_install()
+    print "Done."
+
+ressource_id = models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'search', [[["{{module['search_field']  | replace('\\', '')}}", '=', {{module['ressource_name']  | replace('\\', '')}}]]])
+if not ressource_id:
+{% if module['creation_extra_parameters'] %}
+  models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'create', [{{ '{' }}"{{module['search_field']  | replace('\\', '')}}":{{module['ressource_name']  | replace('\\', '')}}, {{module['creation_extra_parameters']  | replace('\\', '')}}{{ '}' }}])
+{% else %}
+  models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'create', [{{ '{' }}"{{module['search_field']  | replace('\\', '')}}":{{module['ressource_name']  | replace('\\', '')}}{{ '}' }}])
+{% endif %}
+
+ressource_id = models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'search', [[["{{module['search_field']  | replace('\\', '')}}", '=', {{module['ressource_name']  | replace('\\', '')}}]]])
+models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'write', [ressource_id, {{ '{' }}{{ module['extra_parameters'] | replace('\\', '')}}{{ '}' }}])
+if ressource_id:
+{% for key, value in module['parameters'].iteritems() %}
+    models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'write', [ressource_id, {{ '{' }}"{{ key }}":{{ value  | replace('\\', '')}}{{ '}' }}])
+{% endfor %}
+
+models.execute_kw(db, uid, password, '{{module['model']  | replace('\\', '')}}', 'write', [ressource_id, {{ '{' }}"name":{{module['ressource_name']  | replace('\\', '')}}{{ '}' }}])
+
+{% endfor %}

@@ -26,7 +26,27 @@ for module in Module.browse(module_ids):
     print "Done."
 {% endfor %}
 
-{% if restaurant %}
+{% if  shop %}
+module_ids = Module.search([['name', '=', 'point_of_sale']])
+for module in Module.browse(module_ids):
+  if module.state == 'installed':
+    print "%s has already been installed." % module.name
+  else:
+    sys.stdout.write("Installing %s ... " % module.name)
+    module.button_immediate_install()
+    print "Done."
+{% else %}
+module_ids = Module.search([['name', '=', 'point_of_sale']])
+for module in Module.browse(module_ids):
+  if module.state != 'installed':
+    print "%s has already been removed." % module.name
+  else:
+    sys.stdout.write("Uninstalling %s ... " % module.name)
+    module.button_immediate_uninstall()
+    print "Done."
+{% endif %}
+
+{% if  restaurant %}
 module_ids = Module.search([['name', '=', 'pos_restaurant']])
 for module in Module.browse(module_ids):
   if module.state == 'installed':
