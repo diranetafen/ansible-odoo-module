@@ -46,3 +46,5 @@ script:
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags pos'
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags company'
   - 'sudo ansible-playbook tests/test.yml -vvvv --tags configure'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags product'
+

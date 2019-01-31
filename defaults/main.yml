@@ -28,6 +28,7 @@ uninstall_modules_script_dest: uninstall_modules.py
 configure_pos_script_dest: configure_pos.py
 configure_company_script_dest: configure_company.py
 configure_custom_modules_dest: configure_custom_modules.py
+configure_product_dest: configure_product.py
 
 tablet_user: pi
 
@@ -89,6 +90,11 @@ custom_modules_to_configure:
       active: True
       smtp_port: 465
 
+# Configure product
+product_to_configure:
+  - product_name: "automation"
+    category_name: "automation-category"
+    subcategory_name: "automation-subcategory"
 
 # Your business is shop or restaurant
 restaurant: true
