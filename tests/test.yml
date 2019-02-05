@@ -1,7 +1,7 @@
 ---
   - hosts: localhost
     connection: local
-    remote_user: root
+    remote_user: root 
     become: true
     roles:
       - { role: ../ansible-odoo-module }
@@ -29,8 +29,9 @@
       uninstall_modules_script_dest: uninstall_modules.py
       configure_pos_script_dest: configure_pos.py
       configure_company_script_dest: configure_company.py
+      configure_product_script_dest: configure_product.py
 
-      tablet_user: root
+      tablet_user: root 
 
       # POS configuration
       pos_to_configure:
@@ -68,7 +69,7 @@
           company_registry: \"Docker registry\" # Company registry
           siret: \"toto Siret\" # Company siret
           ape: \"toto APE\" # Company APE
-          currency_id: 1 # Company currency id
+          #currency_id: 1 # Company currency id
           vat_check_vies: false # VIES VAT Check
       
       # Configure custom modules
@@ -94,3 +95,11 @@
       restaurant: true
       shop: true
 
+      # Configure product
+      product_to_configure:
+        - product_name: "automation-product"
+          category_name: "automation-category"
+          subcategory_name: "automation-subcategory"
+          'attributes':
+             lst_price: 800.00
+             type: \"product\" # product type (consumable[consu], service[service], stockable product[product]) 

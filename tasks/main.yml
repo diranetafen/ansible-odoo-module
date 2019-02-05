@@ -33,3 +33,6 @@
 - include: configure_company.yml
   tags:
     - company
+- include: configure_product.yml
+  tags:
+    - product

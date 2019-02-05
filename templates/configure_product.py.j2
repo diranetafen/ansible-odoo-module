@@ -1,0 +1,46 @@
+import xmlrpclib
+import base64
+url = "{{ odoo_url }}"
+db = "{{ odoo_database_name }}"
+username = "{{ odoo_admin_login }}"
+password = "{{ odoo_admin_password }}"
+
+common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+uid = common.authenticate(db, username, password, {})
+models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+{% for product in product_to_configure %}
+
+# test category
+
+category_id = models.execute_kw(db, uid, password, 'pos.category', 'search', [[["name", '=', '{{product['category_name']  | replace('\\', '')}}'], ["parent_id", '=', False]]])
+if not category_id:
+  models.execute_kw(db, uid, password, 'pos.category', 'create', [{{ '{' }}"name":'{{product['category_name']  | replace('\\', '')}}', "parent_id": False{{ '}' }}])
+  category_id = models.execute_kw(db, uid, password, 'pos.category', 'search', [[["name", '=', '{{product['category_name']  | replace('\\', '')}}'], ["parent_id", '=', False]]])
+  product_category_id = models.execute_kw(db, uid, password, 'pos.category', 'search', [[["name", '=', '{{product['category_name']  | replace('\\', '')}}'], ["parent_id", '=', False]]])
+# test subcategory
+
+{% if product['subcategory_name'] %}
+
+subcategory_id = models.execute_kw(db, uid, password, 'pos.category', 'search', [[["name", '=', '{{product['subcategory_name']  | replace('\\', '')}}'], ["parent_id", '!=', False]]])
+if not subcategory_id:
+  models.execute_kw(db, uid, password, 'pos.category', 'create', [{{ '{' }}"name":'{{product['subcategory_name']  | replace('\\', '')}}', "parent_id": category_id[0]{{ '}' }}])
+
+if subcategory_id:
+  models.execute_kw(db, uid, password, 'pos.category', 'write', [subcategory_id, {{ '{' }}"parent_id": category_id[0]{{ '}' }}])
+product_category_id = models.execute_kw(db, uid, password, 'pos.category', 'search', [[["name", '=', '{{product['subcategory_name']  | replace('\\', '')}}'], ["parent_id", '!=', False]]])
+{% endif %}
+
+# create product
+
+product_id = models.execute_kw(db, uid, password, 'product.product', 'search', [[["name", '=', '{{product['product_name']  | replace('\\', '')}}']]])
+
+if not product_id:
+  models.execute_kw(db, uid, password, 'product.product', 'create', [{{ '{' }}"name":'{{product['product_name']  | replace('\\', '')}}', "pos_categ_id": product_category_id[0]{{ '}' }}])
+  product_id = models.execute_kw(db, uid, password, 'product.product', 'search', [[["name", '=', '{{product['product_name']  | replace('\\', '')}}']]])
+
+{% for key, value in product['attributes'].iteritems() %}
+models.execute_kw(db, uid, password, 'product.product', 'write', [product_id, {{ '{' }}"{{ key }}":{{ value  | replace('\\', '')}}{{ '}' }}])
+{% endfor %}
+
+{% endfor %}

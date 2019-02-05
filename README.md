@@ -16,6 +16,10 @@ The following actions can be made:
 
 * **configure_company**: we use it to update information about the company created in Odoo (look at the `company_to_configure` variable)
 
+* **configure_custome_module**: we use it to configure odoo custom module installed in Odoo (look at the `custom_modules_to_configure` variable)
+
+* **configure_product**: we use it to create and configure  odoo product, category and subcategoryo (look at the `product_to_configure` variable)
+
 `NB`: To easily use this role, every single action are tasks with the corresponding tags (tags: install, update_list ...)
 
 Odoo version tested
