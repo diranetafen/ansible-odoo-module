@@ -103,3 +103,5 @@
           'attributes':
              lst_price: 800.00
              type: \"product\" # product type (consumable[consu], service[service], stockable product[product]) 
+             taxes_id: []
+             supplier_taxes_id: []
