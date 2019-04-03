@@ -2,7 +2,7 @@ Module
 =========
 
 This role allows to manage Odoo modules automatically and configure them depending of our need.
-The following actions can be made:
+The following actions can be made :
 
 * **install**: install a list of Odoo modules on a lastest version available on the host (look at the `modules_to_install` variable)
 
